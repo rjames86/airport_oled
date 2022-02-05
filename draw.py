@@ -44,12 +44,11 @@ class OLEDDraw:
         x = 0
         width, _ = self.font_large.getsize(display_text)
         for i in range(0, width - self.width + self.border, 5):
-            print("i", i)
             self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
             self.draw.text((0, self.top), header,  font=self.font_small, fill=255)
             self.draw.text((x - i, self.top + 12), display_text, font=self.font_large, fill=255)
             self.image.show()
-            time.sleep(0.5)
+            time.sleep(0.2)
         self.wait()
 
     def write_screen(self):
