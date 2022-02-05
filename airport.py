@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
 import requests
+from dateutil import parser
+from dateutil.tz import gettz
 
 class AirportData:
     URL = "https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=1.5&stationString="
@@ -21,6 +23,8 @@ class AirportData:
         'wind_dir_degrees',
         'wind_speed_kt',
     ]
+    TIMEZONE = 'America/Denver'
+
     def __init__(self):
         self.airport_code = 'KMSO'
 
@@ -62,7 +66,13 @@ class AirportData:
     
     @property 
     def observation_time(self):
-        return self.data.get('observation_time')
+        time_data = self.data.get('observation_time')
+        if time_data:
+            dt = parser.parse(time_data)
+            local_dt = dt.astimezone(gettz(self.TIMEZONE))
+            return local_dt.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            return None
     
     @property 
     def sea_level_pressure_mb(self):

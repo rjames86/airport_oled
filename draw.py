@@ -1,4 +1,6 @@
+from email import header
 import time
+from xml.etree.ElementPath import get_parent_map
 
 # import adafruit_ssd1306
 # import board
@@ -28,7 +30,7 @@ class OLEDDraw:
         # self.oled.fill(0)
         # self.oled.show()
 
-        self.cycle_time = 3
+        self.cycle_time = 2
 
         self.image = Image.new('1', (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
@@ -39,21 +41,25 @@ class OLEDDraw:
     def wait(self):
         time.sleep(self.cycle_time)
 
+    def draw_header(self, position, text):
+        self.draw.text((position, self.top), text, font=self.font_small, fill=255)
+
+    def draw_body(self, position, text):
+        self.draw.text(position, text, font=self.font_large, fill=255)
+
 
     def scroll_text(self, display_text, header):
         x = 0
         width, _ = self.font_large.getsize(display_text)
-        for i in range(0, width - self.width + self.border, 5):
+        for i in range(0, width // 2, 5):
             self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
-            self.draw.text((0, self.top), header,  font=self.font_small, fill=255)
-            self.draw.text((x - i, self.top + 12), display_text, font=self.font_large, fill=255)
+            self.draw_header(0, header)
+            self.draw_body((x - i, self.top + 12), display_text)
             self.image.show()
-            time.sleep(0.2)
-        self.wait()
+            time.sleep(0.1)
 
     def write_screen(self):
         x = 0
-
         ad = AirportData()
 
         display_texts = {
@@ -63,15 +69,16 @@ class OLEDDraw:
             "Temp":  "%sº C" % ad.temp_c,
         }
 
+        all_pieces_of_text = []
         for key, display_text in display_texts.items():
             header = "%s (%s) - %s" % (ad.station_id, ad.flight_category, key)
-
+            all_pieces_of_text.append((header, display_text))
             width, _ = self.font_large.getsize(display_text)
             if width > self.width:
                 self.scroll_text(display_text, header)
             else:
                 self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
-                self.draw.text((x, self.top), header, font=self.font_small, fill=255)
-                self.draw.text((x, self.top + 12), display_text, font=self.font_large, fill=255)
+                self.draw_header(x + self.padding, header)
+                self.draw_body((x + self.padding, self.top + 12), display_text)
                 self.image.show()
                 self.wait()
