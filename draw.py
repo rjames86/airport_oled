@@ -30,7 +30,7 @@ class OLEDDraw:
         self.oled.fill(0)
         self.oled.show()
 
-        self.cycle_time = 2
+        self.cycle_time = 4
 
         self.image = Image.new('1', (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
