@@ -50,6 +50,9 @@ class AirportData:
     def __init__(self):
         self.airport_code = "KMSO"
 
+    def __getitem__(self, item):
+        return getattr(self, item)
+
     @property
     def wind_and_speed(self):
         return "%sº @ %s kt/hr" % (self.wind_dir_degrees, self.wind_speed_kt)
@@ -110,7 +113,7 @@ class AirportData:
 
     @property
     def temp_c(self):
-        return self.data.get("temp_c")
+        return "%sº C" % self.data.get("temp_c")
 
     @property
     def visibility_statute_mi(self):
