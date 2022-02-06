@@ -1,6 +1,4 @@
-from email import header
 import time
-from xml.etree.ElementPath import get_parent_map
 
 import adafruit_ssd1306
 import board
@@ -8,6 +6,13 @@ import digitalio
 from PIL import Image, ImageDraw, ImageFont
 
 from airport import AirportData
+from config import (
+    CYCLE_TIME,
+    SMALL_FONT_SIZE,
+    LARGE_FONT_SIZE,
+    DISPLAY_VALUES,
+)
+
 
 class OLEDDraw:
     def __init__(self):
@@ -22,21 +27,25 @@ class OLEDDraw:
         i2c = board.I2C()
         self.oled = adafruit_ssd1306.SSD1306_I2C(
             self.width,
-            self.height, 
-            i2c, 
+            self.height,
+            i2c,
             addr=0x3C,
         )
 
         self.oled.fill(0)
         self.oled.show()
 
-        self.cycle_time = 4
+        self.cycle_time = CYCLE_TIME
 
-        self.image = Image.new('1', (self.width, self.height))
+        self.image = Image.new("1", (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
 
-        self.font_small = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 12)
-        self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 36)
+        self.font_small = ImageFont.truetype(
+            "/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", SMALL_FONT_SIZE
+        )
+        self.font_large = ImageFont.truetype(
+            "/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", LARGE_FONT_SIZE
+        )
 
     def wait(self, wait):
         time.sleep(wait)
@@ -69,21 +78,14 @@ class OLEDDraw:
     def clear_screen(self):
         self.oled.fill(0)
         self.oled.show()
-    
+
     def write_screen(self):
         x = 0
         ad = AirportData()
 
-        display_texts = {
-            "Time":  ad.observation_time,
-            "Pressure": ad.sea_level_pressure_mb,
-            "Wind":  "%s @ %s kt/hr" % (ad.wind_dir_degrees, ad.wind_speed_kt),
-            "Temp":  "%sº C" % ad.temp_c,
-            "Category":  ad.flight_category,
-        }
-
         all_pieces_of_text = []
-        for key, display_text in display_texts.items():
+        for key in DISPLAY_VALUES:
+            display_text = ad[key]
             header = "%s - %s" % (ad.station_id, key)
             all_pieces_of_text.append((header, display_text))
             width, _ = self.font_large.getsize(display_text)
