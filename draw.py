@@ -62,6 +62,10 @@ class OLEDDraw:
             # self.image.show()
             self.show(0.1)
 
+    def clear_screen(self):
+        self.oled.fill(0)
+        self.oled.show()
+    
     def write_screen(self):
         x = 0
         ad = AirportData()
@@ -71,11 +75,12 @@ class OLEDDraw:
             "Pressure": ad.sea_level_pressure_mb,
             "Wind":  "%s @ %s kt/hr" % (ad.wind_dir_degrees, ad.wind_speed_kt),
             "Temp":  "%sº C" % ad.temp_c,
+            "Category":  ad.flight_category,
         }
 
         all_pieces_of_text = []
         for key, display_text in display_texts.items():
-            header = "%s (%s) - %s" % (ad.station_id, ad.flight_category, key)
+            header = "%s - %s" % (ad.station_id, key)
             all_pieces_of_text.append((header, display_text))
             width, _ = self.font_large.getsize(display_text)
             if width > self.width:

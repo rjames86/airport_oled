@@ -2,6 +2,9 @@ from draw import OLEDDraw
 
 if __name__ == '__main__':
     d = OLEDDraw()
-    while True:
-        d.write_screen()
-    
+    try:
+        while True:
+            d.write_screen()
+    except KeyboardInterrupt:
+        d.clear_screen()
+        
