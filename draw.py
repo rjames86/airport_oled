@@ -36,7 +36,7 @@ class OLEDDraw:
         self.draw = ImageDraw.Draw(self.image)
 
         self.font_small = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 12)
-        self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 44)
+        self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 36)
 
     def wait(self, wait):
         time.sleep(wait)
