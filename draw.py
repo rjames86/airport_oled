@@ -2,9 +2,9 @@ from email import header
 import time
 from xml.etree.ElementPath import get_parent_map
 
-# import adafruit_ssd1306
-# import board
-# import digitalio
+import adafruit_ssd1306
+import board
+import digitalio
 from PIL import Image, ImageDraw, ImageFont
 
 from airport import AirportData
@@ -47,20 +47,20 @@ class OLEDDraw:
     def draw_body(self, position, text):
         self.draw.text(position, text, font=self.font_large, fill=255)
 
-    def show(self):
+    def show(self, wait):
         self.oled.image(self.image)
         self.oled.show()
+        self.wait(wait)
 
     def scroll_text(self, display_text, header):
         x = 0
         width, _ = self.font_large.getsize(display_text)
-        for i in range(0, width // 2, 5):
+        for i in range(0, width + self.border, 5):
             self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
             self.draw_header(0, header)
             self.draw_body((x - i, self.top + 12), display_text)
             # self.image.show()
-            self.show()
-            time.sleep(0.1)
+            self.show(0.1)
 
     def write_screen(self):
         x = 0
@@ -85,5 +85,4 @@ class OLEDDraw:
                 self.draw_header(x + self.padding, header)
                 self.draw_body((x + self.padding, self.top + 12), display_text)
                 # self.image.show()
-                self.show()
-                self.wait()
+                self.show(self.cycle_time)
