@@ -134,7 +134,7 @@ class AirportData:
 
     @property
     def data(self):
-        if self._data is None:
+        if self._data is None or self.should_refresh():
             results = []
             root = ET.fromstring(self.get_content())
             for metar in root.iter("METAR"):
@@ -158,11 +158,8 @@ class AirportData:
         return False
 
     def get_content(self):
-        if not hasattr(self, "_content") or self.should_refresh():
-            print("Fetching fresh airport data...")
-            self._content = requests.get(self.URL + self.airport_code).content
-            self._data = None
-        return self._content
+        print("Fetching fresh airport data...")
+        return requests.get(self.URL + self.airport_code).content
 
     def write_json(self):
         with open("airport_data", "wb+") as f:
