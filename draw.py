@@ -86,7 +86,7 @@ class OLEDDraw:
         all_pieces_of_text = []
         for key in DISPLAY_VALUES:
             display_text = ad[key]
-            header = "%s - %s" % (ad.station_id, key)
+            header = "%s - %s" % (ad.station_id, ad.READABLE_NAMES[key])
             all_pieces_of_text.append((header, display_text))
             width, _ = self.font_large.getsize(display_text)
             if width > self.width:

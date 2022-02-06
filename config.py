@@ -2,7 +2,7 @@
 CYCLE_TIME = 4
 
 SMALL_FONT_SIZE = 12
-LARGE_FONT_SIZE = 16
+LARGE_FONT_SIZE = 36
 
 # Must be any of
 #    dewpoint_c
