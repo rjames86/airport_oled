@@ -28,3 +28,7 @@ DISPLAY_VALUES = [
     "flight_category",
     "temp_c",
 ]
+
+# Hours (24h), Minutes
+ON_TIME = [6, 0]
+OFF_TIME = [15, 28]
