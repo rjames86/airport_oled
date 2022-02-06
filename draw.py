@@ -12,7 +12,7 @@ from airport import AirportData
 class OLEDDraw:
     def __init__(self):
         self.width = 128
-        self.height = 32
+        self.height = 64
         self.border = 5
 
         self.padding = 0
@@ -35,8 +35,8 @@ class OLEDDraw:
         self.image = Image.new('1', (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
 
-        self.font_small = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 7)
-        self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 18)
+        self.font_small = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 16)
+        self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 44)
 
     def wait(self, wait):
         time.sleep(wait)
@@ -61,7 +61,7 @@ class OLEDDraw:
             self.draw_header(0, header)
             self.draw_body((x - i, self.top + 12), display_text)
             # self.image.show()
-            self.show(0.1)
+            self.show(0.05)
 
     def clear_screen(self):
         self.oled.fill(0)
