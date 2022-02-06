@@ -38,8 +38,8 @@ class OLEDDraw:
         self.font_small = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 8)
         self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 16)
 
-    def wait(self):
-        time.sleep(self.cycle_time)
+    def wait(self, wait):
+        time.sleep(wait)
 
     def draw_header(self, position, text):
         self.draw.text((position, self.top), text, font=self.font_small, fill=255)
