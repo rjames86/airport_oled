@@ -19,16 +19,16 @@ class OLEDDraw:
         self.top = self.padding
         self.bottom = self.height - self.padding
 
-        # i2c = board.I2C()
-        # self.oled = adafruit_ssd1306.SSD1306_I2C(
-        #     self.width,
-        #     self.height, 
-        #     i2c, 
-        #     addr=0x3C,
-        # )
+        i2c = board.I2C()
+        self.oled = adafruit_ssd1306.SSD1306_I2C(
+            self.width,
+            self.height, 
+            i2c, 
+            addr=0x3C,
+        )
 
-        # self.oled.fill(0)
-        # self.oled.show()
+        self.oled.fill(0)
+        self.oled.show()
 
         self.cycle_time = 2
 
@@ -47,6 +47,9 @@ class OLEDDraw:
     def draw_body(self, position, text):
         self.draw.text(position, text, font=self.font_large, fill=255)
 
+    def show(self):
+        self.oled.image(self.image)
+        self.oled.show()
 
     def scroll_text(self, display_text, header):
         x = 0
@@ -55,7 +58,8 @@ class OLEDDraw:
             self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
             self.draw_header(0, header)
             self.draw_body((x - i, self.top + 12), display_text)
-            self.image.show()
+            # self.image.show()
+            self.show()
             time.sleep(0.1)
 
     def write_screen(self):
@@ -80,5 +84,6 @@ class OLEDDraw:
                 self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
                 self.draw_header(x + self.padding, header)
                 self.draw_body((x + self.padding, self.top + 12), display_text)
-                self.image.show()
+                # self.image.show()
+                self.show()
                 self.wait()
