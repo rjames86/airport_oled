@@ -1,7 +1,9 @@
+from threading import local
 import xml.etree.ElementTree as ET
 import requests
 from dateutil import parser
 from dateutil.tz import gettz
+import datetime
 import json
 
 
@@ -49,6 +51,9 @@ class AirportData:
 
     def __init__(self):
         self.airport_code = "KMSO"
+        self.last_run = datetime.datetime.now(tz=gettz("America/Denver"))
+
+        self._data = None
 
     def __getitem__(self, item):
         return getattr(self, item)
@@ -129,7 +134,7 @@ class AirportData:
 
     @property
     def data(self):
-        if not hasattr(self, "_data"):
+        if self._data is None:
             results = []
             root = ET.fromstring(self.get_content())
             for metar in root.iter("METAR"):
@@ -138,12 +143,24 @@ class AirportData:
                     if child.tag in self.METAR_TAGS:
                         result[child.tag] = child.text
                 results.append(result)
-            self._data = results[0]
+            if len(results) > 0:
+                self._data = results[0]
+            else:
+                self._data = {}
         return self._data
 
+    def should_refresh(self):
+        now = datetime.datetime.now(tz=gettz(self.TIMEZONE))
+        delta = now - self.last_run
+        if delta / 60 > 30:
+            return True
+        return False
+
     def get_content(self):
-        if not hasattr(self, "_content"):
+        if not hasattr(self, "_content") or self.should_refresh():
+            print("Fetching fresh airport data...")
             self._content = requests.get(self.URL + self.airport_code).content
+            self._data = None
         return self._content
 
     def write_json(self):

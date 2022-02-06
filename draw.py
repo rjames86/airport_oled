@@ -47,6 +47,8 @@ class OLEDDraw:
             "/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", LARGE_FONT_SIZE
         )
 
+        self.ad = AirportData()
+
     def wait(self, wait):
         time.sleep(wait)
 
@@ -80,13 +82,13 @@ class OLEDDraw:
         self.oled.show()
 
     def write_screen(self):
+        print("Writing screen...")
         x = 0
-        ad = AirportData()
 
         all_pieces_of_text = []
         for key in DISPLAY_VALUES:
-            display_text = ad[key]
-            header = "%s - %s" % (ad.station_id, ad.READABLE_NAMES[key])
+            display_text = self.ad[key]
+            header = "%s - %s" % (self.ad.station_id, self.ad.READABLE_NAMES[key])
             all_pieces_of_text.append((header, display_text))
             width, _ = self.font_large.getsize(display_text)
             if width > self.width:
