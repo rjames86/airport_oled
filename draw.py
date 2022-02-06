@@ -35,8 +35,8 @@ class OLEDDraw:
         self.image = Image.new('1', (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
 
-        self.font_small = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 8)
-        self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 16)
+        self.font_small = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 7)
+        self.font_large = ImageFont.truetype("/Users/rjames/Dropbox/~Inbox/DejaVuSans.ttf", 18)
 
     def wait(self, wait):
         time.sleep(wait)
@@ -55,7 +55,8 @@ class OLEDDraw:
     def scroll_text(self, display_text, header):
         x = 0
         width, _ = self.font_large.getsize(display_text)
-        for i in range(0, width + self.border, 5):
+        # Start at negative half the screen so that the scrolling text starts at the middle of the screen
+        for i in range(0 - (self.width // 2), width + self.border, 5):
             self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
             self.draw_header(0, header)
             self.draw_body((x - i, self.top + 12), display_text)
