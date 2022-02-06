@@ -5,5 +5,5 @@ if __name__ == "__main__":
     try:
         while True:
             d.write_screen()
-    except Exception:
+    except KeyboardInterrupt:
         d.clear_screen()

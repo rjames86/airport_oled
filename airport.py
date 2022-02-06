@@ -153,7 +153,8 @@ class AirportData:
         now = datetime.datetime.now(tz=gettz(self.TIMEZONE))
         delta = now - self.last_run
         print("Last run ", delta.total_seconds() / 60)
-        if delta.total_seconds() / 60 > 30:
+        if delta.total_seconds() / 60 > 1:
+            self.last_run = datetime.datetime.now(tz=gettz("America/Denver"))
             return True
         return False
 
