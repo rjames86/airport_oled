@@ -83,6 +83,7 @@ class OLEDDraw:
 
     def write_screen(self):
         print("Writing screen...")
+        self.ad.should_refresh()
         x = 0
 
         all_pieces_of_text = []

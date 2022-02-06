@@ -134,7 +134,7 @@ class AirportData:
 
     @property
     def data(self):
-        if self._data is None or self.should_refresh():
+        if self._data is None:
             results = []
             root = ET.fromstring(self.get_content())
             for metar in root.iter("METAR"):
@@ -155,6 +155,7 @@ class AirportData:
         print("Last run ", delta.total_seconds() / 60)
         if delta.total_seconds() / 60 > 1:
             self.last_run = datetime.datetime.now(tz=gettz("America/Denver"))
+            self._data = None
             return True
         return False
 
