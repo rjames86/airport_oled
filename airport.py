@@ -152,7 +152,8 @@ class AirportData:
     def should_refresh(self):
         now = datetime.datetime.now(tz=gettz(self.TIMEZONE))
         delta = now - self.last_run
-        if delta / 60 > 30:
+        print("Last run ", delta.total_seconds() / 60)
+        if delta.total_seconds() / 60 > 30:
             return True
         return False
 
