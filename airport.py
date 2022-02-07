@@ -157,7 +157,7 @@ class AirportData:
     def should_refresh(self):
         now = datetime.datetime.now(tz=gettz(self.TIMEZONE))
         delta = now - self.last_run
-        if delta.total_seconds() / 60 > 1:
+        if delta.total_seconds() / 60 > 15:
             self.last_run = datetime.datetime.now(tz=gettz("America/Denver"))
             self._data = None
             return True
