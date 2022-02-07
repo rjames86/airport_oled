@@ -105,7 +105,7 @@ class AirportData:
         if time_data:
             dt = parser.parse(time_data)
             local_dt = dt.astimezone(gettz(self.TIMEZONE))
-            return local_dt.strftime("%Y-%m-%d %H:%M:%S")
+            return local_dt.strftime("%Y-%m-%d %H:%M")
         else:
             return None
 
@@ -115,7 +115,7 @@ class AirportData:
 
     @property
     def sea_level_pressure_hg(self):
-        return "%s Hg" % float(self.data.get("sea_level_pressure_mb")) * 0.029530
+        return "%0.2f Hg" % (float(self.data.get("sea_level_pressure_mb")) * 0.029530)
 
     @property
     def station_id(self):
