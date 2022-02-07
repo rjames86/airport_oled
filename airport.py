@@ -45,6 +45,7 @@ class AirportData:
         wind_dir_degrees="Wind Direction",
         wind_speed_kt="Wind Speed",
         wind_and_speed="Wind/Speed",
+        sea_level_pressure_hg="Pressure (Hg)",
     )
 
     TIMEZONE = "America/Denver"
@@ -111,6 +112,10 @@ class AirportData:
     @property
     def sea_level_pressure_mb(self):
         return self.data.get("sea_level_pressure_mb")
+
+    @property
+    def sea_level_pressure_hg(self):
+        return "%s Hg" % float(self.data.get("sea_level_pressure_mb")) * 0.029530
 
     @property
     def station_id(self):

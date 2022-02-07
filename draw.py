@@ -67,14 +67,14 @@ class OLEDDraw:
         x = 0
         width, _ = self.font_large.getsize(display_text)
         # Start at negative half the screen so that the scrolling text starts at the middle of the screen
-        for i in range(0, (width - self.width) + self.border, 3):
+        for i in range(0, (width - self.width) + self.border, 4):
             self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
             self.draw_header(0, header)
             self.draw_body((x - i, self.top + 12), display_text)
             if i == 0:
                 self.show(1)
             else:
-                self.show(0.02)
+                self.show(0.01)
         self.wait(1)
 
     def clear_screen(self):
