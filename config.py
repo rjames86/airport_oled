@@ -21,7 +21,7 @@ LARGE_FONT_SIZE = 36
 #    wind_dir_degrees
 #    wind_speed_kt
 #    wind_and_speed
-#    wind_and_speed
+#    sea_level_pressure_hg
 DISPLAY_VALUES = [
     "wind_and_speed",
     "observation_time",
