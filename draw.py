@@ -86,11 +86,12 @@ class OLEDDraw:
         self.ad.should_refresh()
         x = 0
 
-        all_pieces_of_text = []
         for key in DISPLAY_VALUES:
             display_text = self.ad[key]
             header = "%s - %s" % (self.ad.station_id, self.ad.READABLE_NAMES[key])
-            all_pieces_of_text.append((header, display_text))
+
+            print("Writing: %s - %s" % (header, display_text))
+
             width, _ = self.font_large.getsize(display_text)
             if width > self.width:
                 self.scroll_text(display_text, header)
