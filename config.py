@@ -24,11 +24,11 @@ LARGE_FONT_SIZE = 36
 #    sea_level_pressure_hg
 #   raw_text
 DISPLAY_VALUES = [
-    "wind_and_speed",
     "observation_time",
-    "sea_level_pressure_hg",
+    "wind_and_speed",
     "flight_category",
-    "temp_c",
-    "raw_text",
     "sky_condition",
+    "temp_c",
+    "sea_level_pressure_hg",
+    "raw_text",
 ]
