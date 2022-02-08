@@ -26,7 +26,15 @@ class AirportData:
         "visibility_statute_mi",
         "wind_dir_degrees",
         "wind_speed_kt",
+        "raw_text",
     ]
+
+    ATTRIBUTE_TAGS = {
+        "sky_condition": [
+            "sky_cover",
+            "cloud_base_ft_agl",
+        ],
+    }
 
     READABLE_NAMES = dict(
         dewpoint_c="Dewpoint",
@@ -46,6 +54,8 @@ class AirportData:
         wind_speed_kt="Wind Speed",
         wind_and_speed="Wind/Speed",
         sea_level_pressure_hg="Pressure (Hg)",
+        raw_text="Raw Text",
+        sky_condition="Sky Condition",
     )
 
     TIMEZONE = "America/Denver"
@@ -62,6 +72,10 @@ class AirportData:
     @property
     def wind_and_speed(self):
         return "%sº @ %s kts" % (self.wind_dir_degrees, self.wind_speed_kt)
+
+    @property
+    def raw_text(self):
+        return self.data.get("raw_text")
 
     @property
     def altim_in_hg(self):
@@ -98,6 +112,16 @@ class AirportData:
     @property
     def minT_c(self):
         return self.data.get("minT_c")
+
+    @property
+    def sky_condition(self):
+        if self.data.get("sky_condition") is None:
+            return None
+        data = self.data.get("sky_condition")
+        to_return = "%s" % data["sky_cover"]
+        if "cloud_base_ft_agl" in data:
+            to_return += ". Cloud base: %s" % data["cloud_base_ft_agl"]
+        return to_return
 
     @property
     def observation_time(self):
@@ -147,6 +171,12 @@ class AirportData:
                 for child in metar:
                     if child.tag in self.METAR_TAGS:
                         result[child.tag] = child.text
+                    elif child.tag in self.ATTRIBUTE_TAGS:
+                        result[child.tag] = {}
+                        attributes = self.ATTRIBUTE_TAGS[child.tag]
+                        for key, value in child.attrib.items():
+                            result[child.tag][key] = value
+
                 results.append(result)
             if len(results) > 0:
                 self._data = results[0]

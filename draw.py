@@ -88,6 +88,10 @@ class OLEDDraw:
 
         for key in DISPLAY_VALUES:
             display_text = self.ad[key]
+            if display_text is None:
+                print("%s is None. Skipping..." % key)
+                continue
+
             header = "%s - %s" % (self.ad.station_id, self.ad.READABLE_NAMES[key])
 
             print("Writing: %s - %s" % (header, display_text))
