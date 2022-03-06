@@ -74,7 +74,7 @@ class OLEDDraw:
             if i == 0:
                 self.show(1)
             else:
-                self.show(0.0075)
+                self.show(0.005)
         self.wait(1)
 
     def clear_screen(self):
