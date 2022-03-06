@@ -13,6 +13,8 @@ from config import (
     DISPLAY_VALUES,
 )
 
+SCROLL_DELAY = 0.0025
+
 
 class OLEDDraw:
     def __init__(self):
@@ -74,7 +76,7 @@ class OLEDDraw:
             if i == 0:
                 self.show(1)
             else:
-                self.show(0.005)
+                self.show(SCROLL_DELAY)
         self.wait(1)
 
     def clear_screen(self):
