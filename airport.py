@@ -139,7 +139,9 @@ class AirportData:
 
     @property
     def sea_level_pressure_hg(self):
-        return "%0.2f Hg" % (float(self.data.get("sea_level_pressure_mb")) * 0.029530)
+        if self.sea_level_pressure_mb is None:
+            return 'N/A'
+        return "%0.2f Hg" % (float(self.sea_level_pressure_mb) * 0.029530)
 
     @property
     def station_id(self):
