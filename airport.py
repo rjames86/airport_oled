@@ -8,7 +8,7 @@ import json
 
 
 class AirportData:
-    URL = "https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=1.5&stationString="
+    URL = "https://aviationweather.gov/cgi-bin/data/dataserver.php?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=1.5&stationString="
     METAR_TAGS = [
         "altim_in_hg",
         "dewpoint_c",
